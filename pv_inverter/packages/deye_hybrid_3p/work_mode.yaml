@@ -38,6 +38,16 @@ select:
       "Zero Export To Load": 1
       "Zero Export To CT": 2
 
+sensor:
+  - platform: modbus_controller
+    modbus_controller_id: ${modbus_controller_id}
+    name: "Register 178 Raw"
+    id: register_178
+    register_type: read
+    value_type: U_WORD
+    address: 178
+    internal: true
+
 switch:
   - platform: modbus_controller
     use_write_multiple: true
@@ -138,4 +148,5 @@ number:
     step: 1
     mode: box
     icon: "mdi:transmission-tower"
+
 
