@@ -41,9 +41,8 @@ select:
 sensor:
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
-    name: "Register 178 Raw"
     id: register_178
-    register_type: read
+    register_type: holding
     value_type: U_WORD
     address: 178
     internal: true
@@ -78,7 +77,7 @@ switch:
   #   icon: "mdi:transmission-tower"
 
   - platform: modbus_controller
-    use_write_multiple: true
+    use_write_multiple: false
     modbus_controller_id: ${modbus_controller_id}
     name: "Grid Peak Shaving Enable"
     register_type: holding
@@ -148,5 +147,6 @@ number:
     step: 1
     mode: box
     icon: "mdi:transmission-tower"
+
 
 
