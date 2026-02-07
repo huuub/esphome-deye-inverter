@@ -76,18 +76,26 @@ switch:
   #   bitmask: 0x0010 # bit 4
   #   icon: "mdi:transmission-tower"
 
-  - platform: modbus_controller
-    use_write_multiple: false
-    modbus_controller_id: ${modbus_controller_id}
+  - platform: template
     name: "Grid Peak Shaving Enable"
-    register_type: holding
-    address: 178
-    bitmask: 0x0010
-    write_lambda: |-
-      uint16_t current = id(register_178).state;
-      return (x == 0) ? (current & ~0x10) : (current | 0x10);
     icon: "mdi:transmission-tower"
     entity_category: config
+    lambda: |-
+      return (int(id(register_178).state) & 0x10) != 0;
+    turn_on_action:
+      - lambda: |-
+          uint16_t current = id(register_178).state;
+          uint16_t val = current | 0x10;
+          auto cmd = esphome::modbus_controller::ModbusCommandItem::create_write_single_command(
+            id(${modbus_controller_id}), 178, val);
+          id(${modbus_controller_id})->queue_command(cmd);
+    turn_off_action:
+      - lambda: |-
+          uint16_t current = id(register_178).state;
+          uint16_t val = current & ~0x10;
+          auto cmd = esphome::modbus_controller::ModbusCommandItem::create_write_single_command(
+            id(${modbus_controller_id}), 178, val);
+          id(${modbus_controller_id})->queue_command(cmd);
 
 number:
   - platform: modbus_controller
@@ -147,6 +155,7 @@ number:
     step: 1
     mode: box
     icon: "mdi:transmission-tower"
+
 
 
 
