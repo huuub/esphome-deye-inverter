@@ -42,6 +42,7 @@ sensor:
   - platform: modbus_controller
     modbus_controller_id: ${modbus_controller_id}
     id: register_178
+    name: "Deye Register 178"
     register_type: holding
     value_type: U_WORD
     address: 178
@@ -134,6 +135,7 @@ number:
     step: 1
     mode: box
     icon: "mdi:transmission-tower"
+
 
 
 
